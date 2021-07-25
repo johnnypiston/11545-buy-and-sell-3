@@ -1,12 +1,14 @@
 'use strict';
 
 const fs = require(`fs`);
+const {ExitCode} = require(`../../constants`);
 const {
   getRandomInt,
   shuffle,
 } = require(`../../utils`);
 
 const DEFAULT_COUNT = 1;
+const MAX_COUNT = 1000;
 const FILE_NAME = `mocks.json`;
 
 const TITLES = [
@@ -57,16 +59,21 @@ const PictureRestrict = {
 
 const getPictureFileName = (pictureNumber) => `item${pictureNumber.toString().padStart(2, 0)}.jpg`;
 
-const generateOffers = (count) => (
-  Array(count).fill({}).map(() => ({
+const generateOffers = (count) => {
+  if (count > MAX_COUNT) {
+    console.error(`Не больше ${MAX_COUNT} объявлений`);
+    process.exit(ExitCode.error);
+  }
+
+  return Array(count).fill({}).map(() => ({
     category: [CATEGORIES[getRandomInt(0, CATEGORIES.length - 1)]],
     description: shuffle(SENTENCES).slice(1, 5).join(` `),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
     title: TITLES[getRandomInt(0, TITLES.length - 1)],
     type: OfferType[Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)]],
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
-  }))
-);
+  }));
+};
 
 module.exports = {
   name: `--generate`,
