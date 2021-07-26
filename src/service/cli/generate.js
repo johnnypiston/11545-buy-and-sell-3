@@ -59,6 +59,15 @@ const PictureRestrict = {
 
 const getPictureFileName = (pictureNumber) => `item${pictureNumber.toString().padStart(2, 0)}.jpg`;
 
+const getRandomArrayItem = (array) => array[getRandomInt(0, array.length - 1)];
+/**
+ * Возвращает указанное количество элементов массива взятых случайно
+ * @param {Array} array
+ * @param {number} itemsNumber
+ * @return {Array}
+ */
+const getRandomItemsFromArray = (array, itemsNumber) => shuffle(array).slice(0, itemsNumber);
+
 const generateOffers = (count) => {
   if (count > MAX_COUNT) {
     console.error(`Не больше ${MAX_COUNT} объявлений`);
@@ -66,10 +75,10 @@ const generateOffers = (count) => {
   }
 
   return Array(count).fill({}).map(() => ({
-    category: [CATEGORIES[getRandomInt(0, CATEGORIES.length - 1)]],
-    description: shuffle(SENTENCES).slice(1, 5).join(` `),
+    category: getRandomItemsFromArray(CATEGORIES, getRandomInt(1, CATEGORIES.length - 1)),
+    description: getRandomItemsFromArray(SENTENCES, getRandomInt(1, 5)).join(` `),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
-    title: TITLES[getRandomInt(0, TITLES.length - 1)],
+    title: getRandomArrayItem(TITLES),
     type: OfferType[Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)]],
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
   }));
