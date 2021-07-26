@@ -71,7 +71,7 @@ const getRandomItemsFromArray = (array, itemsNumber) => shuffle(array).slice(0, 
 const generateOffers = (count) => {
   if (count > MAX_COUNT) {
     console.error(`Не больше ${MAX_COUNT} объявлений`);
-    process.exit(ExitCode.error);
+    process.exit(ExitCode.ERROR);
   }
 
   return Array(count).fill({}).map(() => ({
@@ -93,7 +93,8 @@ module.exports = {
 
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
-        return console.error(`Can't write data to file...`);
+        console.error(`Can't write data to file...`);
+        process.exit(ExitCode.ERROR);
       }
 
       return console.info(`Operation success. File created.`);
