@@ -79,7 +79,7 @@ const generateOffers = (count) => {
     description: getRandomItemsFromArray(SENTENCES, getRandomInt(1, 5)).join(` `),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
     title: getRandomArrayItem(TITLES),
-    type: OfferType[Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)]],
+    type: getRandomArrayItem(Object.values(OfferType)),
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
   }));
 };
