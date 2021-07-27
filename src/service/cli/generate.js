@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require(`fs`);
+const chalk = require(`chalk`);
 const {ExitCode} = require(`../../constants`);
 const {
   getRandomInt,
@@ -70,7 +71,7 @@ const getRandomItemsFromArray = (array, itemsNumber) => shuffle(array).slice(0, 
 
 const generateOffers = (count) => {
   if (count > MAX_COUNT) {
-    console.error(`Не больше ${MAX_COUNT} объявлений`);
+    console.error(chalk.red(`Не больше ${MAX_COUNT} объявлений`));
     process.exit(ExitCode.ERROR);
   }
 
@@ -93,11 +94,11 @@ module.exports = {
 
     fs.writeFile(FILE_NAME, content, (err) => {
       if (err) {
-        console.error(`Can't write data to file...`);
+        console.error(chalk.red(`Не удалось создать файл!`));
         process.exit(ExitCode.ERROR);
       }
 
-      return console.info(`Operation success. File created.`);
+      return console.info(chalk.green(`Успех: mock-файл с тестовыми объявлениями создан!`));
     });
   }
 };
