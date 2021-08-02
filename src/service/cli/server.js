@@ -44,6 +44,7 @@ const sendResponse = (response, statusCode, message) => {
 
 const onClientConnect = async (request, response) => {
   const notFoundMessageText = `Упс, ничего не найдено &#x1F622;`;
+  const smthWrongMessageText = `Что-то пошло не так...`;
 
   switch (request.url) {
     case `/`:
@@ -51,7 +52,7 @@ const onClientConnect = async (request, response) => {
         const markup = await getTitlesMarkup();
         sendResponse(response, HttpResponseCode.OK, markup);
       } catch (error) {
-        sendResponse(response, HttpResponseCode.NOT_FOUND, notFoundMessageText);
+        sendResponse(response, HttpResponseCode.INTERNAL_SERVER_ERROR, smthWrongMessageText);
       }
 
       break;
