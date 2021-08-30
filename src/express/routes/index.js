@@ -1,14 +1,14 @@
 'use strict';
 
-const express = require(`express`);
+const {Router} = require(`express`);
 const mainRouter = require(`./main-routes`);
 const myRouter = require(`./my-routes`);
 const offersRouter = require(`./offers-routes`);
 
-const app = express();
+const appRouter = new Router();
 
-app.use(`/`, mainRouter);
-app.use(`/my`, myRouter);
-app.use(`/offers`, offersRouter);
+appRouter.use(`/`, mainRouter);
+appRouter.use(`/my`, myRouter);
+appRouter.use(`/offers`, offersRouter);
 
-module.exports = app;
+module.exports = appRouter;
