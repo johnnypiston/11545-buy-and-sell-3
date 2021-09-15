@@ -13,10 +13,12 @@ const HttpResponseCode = {
   FORBIDDEN: 403,
   UNAUTHORIZED: 401,
 };
+const MAX_ID_LENGTH = 6;
 
 module.exports = {
   DEFAULT_COMMAND,
   USER_ARGV_INDEX,
   ExitCode,
   HttpResponseCode,
+  MAX_ID_LENGTH,
 };

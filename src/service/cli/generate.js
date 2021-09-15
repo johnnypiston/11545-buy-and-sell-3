@@ -3,7 +3,7 @@
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
 const {nanoid} = require(`nanoid`);
-const {ExitCode} = require(`../../constants`);
+const {ExitCode, MAX_ID_LENGTH} = require(`../../constants`);
 const {
   getRandomInt,
   shuffle,
@@ -12,7 +12,6 @@ const {
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
 const FILE_NAME = `mocks.json`;
-const MAX_ID_LENGTH = 6;
 const MAX_COMMENTS = 7;
 
 const OfferType = {
