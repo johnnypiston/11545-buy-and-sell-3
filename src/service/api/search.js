@@ -7,8 +7,17 @@ const route = new Router();
 
 module.exports = (searchService) => {
   route.get(`/`, (req, res) => {
-    const offers = searchService.searchOffers();
-    res.status(HttpResponseCode.OK).json(offers);
+    const {query: searchText = ``} = req.query;
+
+    if (!searchText) {
+      res.status(HttpResponseCode.BAD_REQUEST).json([]);
+      return;
+    }
+
+    const searchResults = searchService.searchOffers(searchText);
+    const searchStatus = searchResults.length > 0 ? HttpResponseCode.OK : HttpResponseCode.NOT_FOUND;
+
+    res.status(searchStatus).json(searchResults);
   });
 
   return route;

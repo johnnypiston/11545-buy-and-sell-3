@@ -9,8 +9,7 @@ class OfferService {
   }
 
   create(offer) {
-    const newOffer = Object
-      .assign({id: nanoid(MAX_ID_LENGTH), comments: []}, offer);
+    const newOffer = Object.assign({id: nanoid(MAX_ID_LENGTH), comments: []}, offer);
 
     this._offers.push(newOffer);
     return newOffer;
@@ -35,11 +34,8 @@ class OfferService {
     return this._offers.find((item) => item.id === id);
   }
 
-  update(id, offer) {
-    const oldOffer = this._offers
-      .find((item) => item.id === id);
-
-    return Object.assign(oldOffer, offer);
+  update(oldOffer, newOffer) {
+    return Object.assign(oldOffer, newOffer);
   }
 }
 
