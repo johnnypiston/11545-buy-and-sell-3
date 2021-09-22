@@ -1,8 +1,8 @@
 'use strict';
 
 const {Router} = require(`express`);
-const {HttpResponseCode} = require(`../../constants`);
-const offerValidator = require(`../middlewares/offer-validator`);
+const {HttpResponseCode, KeysForValidation} = require(`../../constants`);
+const objectValidator = require(`../middlewares/object-validator`);
 const offerExist = require(`../middlewares/offer-exist`);
 
 const route = new Router();
@@ -23,7 +23,7 @@ module.exports = (offerService, commentService) => {
     return res.status(HttpResponseCode.OK).json(offer);
   });
 
-  route.post(`/`, offerValidator, (req, res) => {
+  route.post(`/`, objectValidator(KeysForValidation.offerKeys), (req, res) => {
     const offer = offerService.create(req.body);
 
     return res.status(HttpResponseCode.CREATED).json(offer);
@@ -58,7 +58,7 @@ module.exports = (offerService, commentService) => {
 
     const comments = commentService.findAll(offer);
 
-    res.status(HttpResponseCode.OK).json(comments);
+    return res.status(HttpResponseCode.OK).json(comments);
   });
 
   route.delete(`/:offerId/comments/:commentId`, offerExist(offerService), (req, res) => {
@@ -74,7 +74,7 @@ module.exports = (offerService, commentService) => {
     return res.status(HttpResponseCode.OK).json(deletedComment);
   });
 
-  route.post(`/:offerId/comments`, offerExist(offerService), (req, res) => {
+  route.post(`/:offerId/comments`, [offerExist(offerService), objectValidator(KeysForValidation.commentKeys)], (req, res) => {
     const {offer} = res.locals;
     const newComment = commentService.create(offer, req.body);
 

@@ -43,7 +43,7 @@ Content-Type: application/json
 
 # Обновление объявления
 
-PUT http://localhost:3000/api/offers/OlP82e HTTP/1.1
+PUT http://localhost:3000/api/offers/PR-OTW HTTP/1.1
 Content-Type: application/json
 
 {
@@ -52,14 +52,14 @@ Content-Type: application/json
   "picture": "item03.jpg",
   "title": "Новый заголовок",
   "sum": 900,
-  "type": "offer"
+  "typ111": "offer"
 }
 
 ###
 
 # Список комментариев
 
-GET http://localhost:3000/api/offers/OlP82e/comments HTTP/1.1
+GET http://localhost:3000/api/offers/uV9GIs/comments HTTP/1.1
 
 ###
 
@@ -71,7 +71,7 @@ DELETE http://localhost:3000/api/offers/OlP82e/comments/9qfEuM HTTP/1.1
 
 # Добавляет новый комментарий к публикации
 
-POST http://localhost:3000/api/offers/OlP82e/comments HTTP/1.1
+POST http://localhost:3000/api/offers/PcKUCA/comments HTTP/1.1
 Content-Type: application/json
 
 {

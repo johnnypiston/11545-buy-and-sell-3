@@ -16,6 +16,10 @@ const HttpResponseCode = {
   UNAUTHORIZED: 401,
 };
 const MAX_ID_LENGTH = 6;
+const KeysForValidation = {
+  offerKeys: [`category`, `description`, `picture`, `title`, `type`, `sum`],
+  commentKeys: [`text`],
+};
 
 module.exports = {
   DEFAULT_COMMAND,
@@ -23,4 +27,5 @@ module.exports = {
   ExitCode,
   HttpResponseCode,
   MAX_ID_LENGTH,
+  KeysForValidation,
 };
