@@ -10,14 +10,15 @@ const SearchService = require(`../data-service/search`);
 const CommentService = require(`../data-service/comment`);
 const {getMockData} = require(`../lib/get-mock-data`);
 
-const apiRouter = new Router();
-
-(async () => {
+const createRouter = async () => {
+  const apiRouter = new Router();
   const data = await getMockData();
 
   apiRouter.use(`/offers`, getOfferRouter(new OfferService(data), new CommentService()));
-  apiRouter.use(`/category`, getCategoryRouter(new CategoryService(data)));
+  apiRouter.use(`/categories`, getCategoryRouter(new CategoryService(data)));
   apiRouter.use(`/search`, getSearchRouter(new SearchService(data)));
-})();
 
-module.exports = apiRouter;
+  return apiRouter;
+};
+
+module.exports = createRouter;

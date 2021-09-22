@@ -3,14 +3,16 @@
 const express = require(`express`);
 const chalk = require(`chalk`);
 const {HttpResponseCode} = require(`../../constants.js`);
-const apiRouter = require(`../api`);
+const createRouter = require(`../api`);
 
 const API_PREFIX = `/api`;
 const DEFAULT_PORT = 3000;
 
-const createServer = (port) => {
+const createServer = async (port) => {
   const server = express();
   server.use(express.json());
+
+  const apiRouter = await createRouter();
 
   server.use(API_PREFIX, apiRouter);
 
