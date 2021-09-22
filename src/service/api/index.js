@@ -1,6 +1,7 @@
 'use strict';
 
 const {Router} = require(`express`);
+const chalk = require(`chalk`);
 const getOfferRouter = require(`./offer`);
 const getCategoryRouter = require(`./category`);
 const getSearchRouter = require(`./search`);
@@ -12,7 +13,13 @@ const {getMockData} = require(`../lib/get-mock-data`);
 
 const createRouter = async () => {
   const apiRouter = new Router();
-  const data = await getMockData();
+  let data = [];
+
+  try {
+    data = await getMockData();
+  } catch (error) {
+    console.error(chalk.red(`Ошибка получения мокирующих данных.`));
+  }
 
   apiRouter.use(`/offers`, getOfferRouter(new OfferService(data), new CommentService()));
   apiRouter.use(`/categories`, getCategoryRouter(new CategoryService(data)));
