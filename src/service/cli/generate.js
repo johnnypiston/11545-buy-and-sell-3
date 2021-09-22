@@ -2,7 +2,8 @@
 
 const fs = require(`fs`).promises;
 const chalk = require(`chalk`);
-const {ExitCode} = require(`../../constants`);
+const {nanoid} = require(`nanoid`);
+const {ExitCode, MAX_ID_LENGTH} = require(`../../constants`);
 const {
   getRandomInt,
   shuffle,
@@ -11,6 +12,7 @@ const {
 const DEFAULT_COUNT = 1;
 const MAX_COUNT = 1000;
 const FILE_NAME = `mocks.json`;
+const MAX_COMMENTS = 7;
 
 const OfferType = {
   OFFER: `offer`,
@@ -32,6 +34,7 @@ const DataFileUrl = {
   TITLES: `./src/data/titles.txt`,
   SENTENCES: `./src/data/sentences.txt`,
   CATEGORIES: `./src/data/categories.txt`,
+  COMMENTS: `./src/data/comments.txt`,
 };
 
 const getPictureFileName = (pictureNumber) => `item${pictureNumber.toString().padStart(2, 0)}.jpg`;
@@ -58,25 +61,33 @@ const getStringArrayFromFile = async (filePath) => {
   return data;
 };
 
+const generateComments = (comments, count) => Array(count).fill({}).map(() => ({
+  id: nanoid(MAX_ID_LENGTH),
+  text: shuffle(comments).slice(0, getRandomInt(1, 3)).join(` `),
+}));
+
 const generateOffers = async (count) => {
   if (count > MAX_COUNT) {
     console.error(chalk.red(`Не больше ${MAX_COUNT} объявлений`));
     process.exit(ExitCode.ERROR);
   }
 
-  const [categories, sentences, titles] = await Promise.all([
+  const [categories, sentences, titles, comments] = await Promise.all([
     getStringArrayFromFile(DataFileUrl.CATEGORIES),
     getStringArrayFromFile(DataFileUrl.SENTENCES),
     getStringArrayFromFile(DataFileUrl.TITLES),
+    getStringArrayFromFile(DataFileUrl.COMMENTS),
   ]);
 
   return Array(count).fill({}).map(() => ({
+    id: nanoid(MAX_ID_LENGTH),
     category: getRandomItemsFromArray(categories, getRandomInt(1, categories.length - 1)),
     description: getRandomItemsFromArray(sentences, getRandomInt(1, 5)).join(` `),
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
     title: getRandomArrayItem(titles),
     type: getRandomArrayItem(Object.values(OfferType)),
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
+    comments: generateComments(comments, getRandomInt(1, MAX_COMMENTS)),
   }));
 };
 
