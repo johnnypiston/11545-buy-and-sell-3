@@ -15,9 +15,8 @@ module.exports = (searchService) => {
     }
 
     const searchResults = searchService.searchOffers(searchText);
-    const searchStatus = searchResults.length > 0 ? HttpResponseCode.OK : HttpResponseCode.NOT_FOUND;
 
-    res.status(searchStatus).json(searchResults);
+    res.status(HttpResponseCode.OK).json(searchResults);
   });
 
   return route;
